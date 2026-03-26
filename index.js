@@ -24,12 +24,27 @@ app.use(async (req, res, next) => {
 });
 
 // Swagger Documentation at root /
-const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css";
+const CSS_URL = "https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css";
+const JS_URL = "https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js";
+const PRESET_URL = "https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-standalone-preset.js";
+
 app.use('/', swaggerUi.serve);
-app.get('/', swaggerUi.setup(specs, {
-  customCssUrl: CSS_URL,
-  customCss: '.swagger-ui .topbar { display: none }'
-}));
+app.get('/', (req, res) => {
+  const html = swaggerUi.generateHTML(specs, {
+    customCssUrl: CSS_URL,
+    customJs: [JS_URL, PRESET_URL],
+    customCss: '.swagger-ui .topbar { display: none }',
+    swaggerOptions: {
+      url: '/api-docs.json', // Fallback if needed
+    }
+  });
+  res.send(html);
+});
+
+// Also expose the specs as JSON
+app.get('/api-docs.json', (req, res) => {
+  res.json(specs);
+});
 
 // API Routes
 app.use('/api', routes);
