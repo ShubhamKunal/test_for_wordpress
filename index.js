@@ -8,17 +8,28 @@ const { swaggerUi, specs } = require('./src/config/swagger');
 // Load env vars
 dotenv.config();
 
-// Connect to database
-connectDB();
-
 const app = express();
 
 // Body parser
 app.use(express.json());
 
+// MiddleWare to Ensure MongoDB Connection for each request
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Swagger Documentation at root /
+const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css";
 app.use('/', swaggerUi.serve);
-app.get('/', swaggerUi.setup(specs));
+app.get('/', swaggerUi.setup(specs, {
+  customCssUrl: CSS_URL,
+  customCss: '.swagger-ui .topbar { display: none }'
+}));
 
 // API Routes
 app.use('/api', routes);
