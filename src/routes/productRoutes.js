@@ -12,7 +12,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /products:
+ * /api/products:
  *   get:
  *     summary: Get all products
  *     tags: [Products]
@@ -40,7 +40,7 @@ router.route('/').get(getProducts).post(protect, createProduct);
 
 /**
  * @swagger
- * /products/{id}:
+ * /api/products/{id}:
  *   get:
  *     summary: Get product by ID
  *     tags: [Products]
