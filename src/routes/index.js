@@ -20,20 +20,23 @@ const { protect } = require('../middlewares/authMiddleware');
  *       content:
  *         application/json:
  *           schema:
- *             type: array
- *             items:
- *               type: object
- *               required:
- *                 - username
- *                 - email
- *                 - password
- *               properties:
- *                 username:
- *                   type: string
- *                 email:
- *                   type: string
- *                 password:
- *                   type: string
+ *             type: object
+ *             properties:
+ *               users:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   required:
+ *                     - username
+ *                     - email
+ *                     - password
+ *                   properties:
+ *                     username:
+ *                       type: string
+ *                     email:
+ *                       type: string
+ *                     password:
+ *                       type: string
  *     responses:
  *       201:
  *         description: Users synced successfully

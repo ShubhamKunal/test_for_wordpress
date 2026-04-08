@@ -30,8 +30,12 @@ const deleteUser = async (req, res, next) => {
 
 const syncUsers = async (req, res, next) => {
   try {
-    const users = await userService.syncUsers(req.body);
-    res.status(201).json(formatResponse(true, users, 'Users synced successfully'));
+    const { users } = req.body;
+    if (!users || !Array.isArray(users)) {
+      return res.status(400).json(formatResponse(false, null, 'Invalid input: "users" array is required'));
+    }
+    const syncedUsers = await userService.syncUsers(users);
+    res.status(201).json(formatResponse(true, syncedUsers, 'Users synced successfully'));
   } catch (error) {
     next(error);
   }
