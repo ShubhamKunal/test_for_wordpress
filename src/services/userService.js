@@ -21,8 +21,16 @@ const deleteUser = async (id) => {
   return { message: 'User removed' };
 };
 
+const syncUsers = async (userDataArray) => {
+  if (!Array.isArray(userDataArray)) {
+    throw new Error('Input must be an array of users');
+  }
+  return await User.create(userDataArray);
+};
+
 module.exports = {
   getAllUsers,
   getUserById,
   deleteUser,
+  syncUsers,
 };

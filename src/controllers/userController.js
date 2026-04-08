@@ -28,8 +28,18 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
+const syncUsers = async (req, res, next) => {
+  try {
+    const users = await userService.syncUsers(req.body);
+    res.status(201).json(formatResponse(true, users, 'Users synced successfully'));
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getUsers,
   getUserById,
   deleteUser,
+  syncUsers,
 };
