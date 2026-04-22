@@ -49,6 +49,10 @@ app.get('/api-docs.json', (req, res) => {
 // API Routes
 app.use('/api', routes);
 
+app.use("/test", (req, res) => {
+    res.status(200).json({ message: "API is working" });
+})
+
 // Error Handling
 app.use(notFound);
 app.use(errorHandler);
